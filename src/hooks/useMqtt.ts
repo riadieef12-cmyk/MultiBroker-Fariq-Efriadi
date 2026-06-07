@@ -20,7 +20,9 @@ export function useMqtt() {
   });
 
   useEffect(() => {
-    const newSocket = io();
+    // Gunakan VITE_SOCKET_URL jika di-build untuk frontend (contoh: Vercel)
+    const socketUrl = import.meta.env.VITE_SOCKET_URL || undefined;
+    const newSocket = io(socketUrl);
     setSocket(newSocket);
 
     newSocket.on('broker_status', (newStatus: BrokerStatus) => {
