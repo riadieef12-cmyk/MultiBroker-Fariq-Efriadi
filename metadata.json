@@ -1,0 +1,6 @@
+{
+  "name": "Sistem IoT MQTT - Multi Broker",
+  "description": "Aplikasi kontrol relay dan variasi IoT menggunakan MQTT dengan dukung multi broker dan voice command.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
