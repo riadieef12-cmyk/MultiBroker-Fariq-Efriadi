@@ -10,11 +10,12 @@ import { RelayCard } from './components/RelayCard';
 import { VoiceController } from './components/VoiceController';
 import { LogViewer } from './components/LogViewer';
 import { motion } from 'motion/react';
-import { Thermometer, Droplets } from 'lucide-react';
+import { Thermometer, Droplets, AlertTriangle } from 'lucide-react';
 
 export default function App() {
   const { 
     status,
+    isBackendConnected,
     connectedServer,
     logs, 
     relayStates,
@@ -43,6 +44,22 @@ export default function App() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
+        {!isBackendConnected && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl flex items-start space-x-4"
+          >
+            <AlertTriangle className="w-6 h-6 text-yellow-500 shrink-0 mt-0.5" />
+            <div>
+              <h3 className="text-yellow-400 font-medium text-lg">Backend Tidak Terhubung</h3>
+              <p className="text-yellow-200/80 text-sm mt-1">
+                Aplikasi ini berjalan tanpa backend (Express/Socket.io). Jika Anda menghosting frontend ini di Vercel, pastikan Anda telah men-deploy backend ke layanan seperti Railway, lalu set environment variable <code className="bg-black/20 px-1.5 py-0.5 rounded">VITE_SOCKET_URL</code> di Vercel dengan URL Railway Anda.
+              </p>
+            </div>
+          </motion.div>
+        )}
+
         <div className="flex flex-col lg:flex-row gap-8">
           
           {/* Left Column - Controls */}

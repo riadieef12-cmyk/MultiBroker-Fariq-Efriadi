@@ -18,12 +18,17 @@ export function useMqtt() {
     suhu: null,
     kelembapan: null,
   });
+  const [isBackendConnected, setIsBackendConnected] = useState<boolean>(false);
 
   useEffect(() => {
     // Gunakan VITE_SOCKET_URL jika di-build untuk frontend (contoh: Vercel)
     const socketUrl = import.meta.env.VITE_SOCKET_URL || undefined;
     const newSocket = io(socketUrl);
     setSocket(newSocket);
+
+    newSocket.on('connect', () => setIsBackendConnected(true));
+    newSocket.on('disconnect', () => setIsBackendConnected(false));
+    newSocket.on('connect_error', () => setIsBackendConnected(false));
 
     newSocket.on('broker_status', (newStatus: BrokerStatus) => {
       setStatus(newStatus);
@@ -220,6 +225,7 @@ export function useMqtt() {
 
   return {
     status,
+    isBackendConnected,
     connectedServer,
     logs,
     relayStates,
